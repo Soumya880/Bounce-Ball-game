@@ -5,8 +5,15 @@
 
 -----
 
-# 🚀 Live Demo 
-👉[Play Bounce Ball Game](https://soumya880.github.io/Bounce-Ball-game/)
+## 🚀 Live Demo
+
+Ready to put your reflexes to the test?  
+Jump into the action and see how long you can keep the ball bouncing!  
+
+Play the Bounce Ball Game instantly in your browser — no downloads, no hassle.  
+Click below and start bouncing your way to a new high score!  
+
+🎉 [Play Bounce Ball Now!](https://soumya880.github.io/Bounce-Ball-game/)
 
 -----
 
