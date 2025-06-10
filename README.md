@@ -22,7 +22,7 @@ Click below and start bouncing your way to a new high score!
 - ⏱️ Increasing difficulty over time
 - 💻 Fully responsive design
 - 🖱️ Mouse and keyboard controls
-- 🚫 No external libraries used – pure vanilla JS
+- 🚫 No external libraries used – pure JavaScript
 
 ---
 
@@ -30,5 +30,19 @@ Click below and start bouncing your way to a new high score!
 - HTML
 - CSS
 - JavaScript
+
+---
+
+## 💡 Future Improvements
+
+- 🧱 Add dynamic obstacles and moving platforms  
+- 🗺️ Add new levels with unique layouts and challenges  
+- 🧠 Implement difficulty settings (Easy, Medium, Hard)  
+- 🌈 Unlock new ball skins and bounce effects  
+- 🌍 Introduce themed environments (space, jungle, neon city)  
+- 📈 Track and display high scores and player stats  
+- 🎵 Add background music and bounce sound effects  
+- 🏆 Integrate achievements and an online leaderboard
+
 
 ---
