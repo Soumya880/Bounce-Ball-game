@@ -5,7 +5,7 @@
 
 -----
 <h3> 🚀 Live Demo </h3>
-👉 ##[Try the Bounce Ball Game](https://soumya880.github.io/Bounce-Ball-game/)
+👉 [Play Bounce Ball Game](https://soumya880.github.io/Bounce-Ball-Game/)
 
 -----
 ### ✨ Features
