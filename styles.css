@@ -1,46 +1,103 @@
+@keyframes bgShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Add floating clouds animation */
+@keyframes cloudMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 1000px 0; }
+}
+
 body {
     margin: 0;
-    overflow: hidden;
-    background: #222;
+    overflow: visible;
+    background: #87ceeb; /* Sky blue */
+    background-image: url('cloud.png');
+    background-repeat: repeat-x;
+    background-size: contain;
+    animation: cloudMove 25s linear infinite;
+
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     height: 100vh;
+    font-family: Arial, sans-serif;
 }
 
+/* Game canvas with inner animated gradient */
 canvas {
     border: 5px solid white;
-    background: linear-gradient(180deg, #444, #222);
+    background: linear-gradient(270deg, #ff9a9e, #fad0c4, #ffdde1);
+    background-size: 600% 600%;
+    animation: bgShift 10s ease infinite;
+    border-radius: 10px;
 }
 
-button {
+/* Score counter */
+#score {
+    color: white;
+    font-size: 24px;
     margin-top: 10px;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px black;
+}
+
+/* Buttons */
+button {
+    margin: 10px;
     padding: 10px 20px;
     font-size: 18px;
     background-color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: 0.3s;
 }
 
 button:hover {
     background-color: #ddd;
+    transform: scale(1.05);
 }
 
+#controls {
+    display: flex;
+    gap: 20px;
+}
+
+/* Game Over Popup */
 #gameOver {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.85);
     color: white;
-    padding: 20px;
+    padding: 30px;
     border-radius: 10px;
     text-align: center;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
 }
 
 .hidden {
     display: none;
+}
+
+/* Responsive layout for mobile */
+@media (max-width: 600px) {
+    canvas {
+        width: 95vw;
+        height: 60vh;
+    }
+
+    #score {
+        font-size: 20px;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 8px 16px;
+    }
 }
