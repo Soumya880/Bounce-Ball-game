@@ -16,8 +16,8 @@ const ball = {
     x: canvas.width / 2,
     y: canvas.height - 50,
     radius: 15,
-    dx: 16,
-    dy: -16,
+    dx: 15,
+    dy: -15,
     color: 'red'
 };
 
