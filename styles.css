@@ -1,23 +1,13 @@
-@keyframes bgShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* Add floating clouds animation */
-@keyframes cloudMove {
-    0% { background-position: 0 0; }
-    100% { background-position: 1000px 0; }
-}
-
+/* Sky blue background with clouds */
 body {
     margin: 0;
-    overflow: visible;
-    background: #87ceeb; /* Sky blue */
+    overflow: hidden;
+    background-color: #87ceeb; /* sky blue */
     background-image: url('cloud.png');
     background-repeat: repeat-x;
+    background-position: top center;
     background-size: contain;
-    animation: cloudMove 25s linear infinite;
+    animation: cloudMove 60s linear infinite;
 
     display: flex;
     flex-direction: column;
@@ -25,79 +15,111 @@ body {
     justify-content: center;
     height: 100vh;
     font-family: Arial, sans-serif;
+    position: relative;
 }
 
-/* Game canvas with inner animated gradient */
+@keyframes cloudMove {
+    0% { background-position: 0 top; }
+    100% { background-position: 1000px top; }
+}
+
+/* Canvas styles */
 canvas {
     border: 5px solid white;
-    background: linear-gradient(270deg, #ff9a9e, #fad0c4, #ffdde1);
-    background-size: 600% 600%;
-    animation: bgShift 10s ease infinite;
-    border-radius: 10px;
-}
-
-/* Score counter */
-#score {
-    color: white;
-    font-size: 24px;
-    margin-top: 10px;
-    font-weight: bold;
-    text-shadow: 1px 1px 3px black;
+    background:-moz-radial-gradient(blue)
+    display: block;
+    max-width: 100%;
 }
 
 /* Buttons */
 button {
-    margin: 10px;
-    padding: 10px 20px;
     font-size: 18px;
+    padding: 10px 20px;
+    margin-top: 10px;
     background-color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: 0.3s;
 }
 
 button:hover {
     background-color: #ddd;
-    transform: scale(1.05);
 }
 
+/* Arrow buttons container */
 #controls {
     display: flex;
     gap: 20px;
+    margin-top: 15px;
 }
 
-/* Game Over Popup */
+/* Arrow button base style */
+.arrow {
+    width: 60px;
+    height: 60px;
+    background-color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+}
+
+.arrow:hover {
+    background-color: #eee;
+    transform: scale(1.1);
+}
+
+/* Remove focus highlight on mobile */
+button:focus {
+    outline: none;
+}
+
+/* Left/right arrow icon using pseudo-elements */
+.arrow::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 15px;
+    height: 15px;
+    border-top: 4px solid black;
+    border-right: 4px solid black;
+    transform: translate(-50%, -50%) rotate(135deg);
+}
+
+.arrow.right::before {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* Game over modal */
 #gameOver {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.8);
     color: white;
-    padding: 30px;
+    padding: 20px;
     border-radius: 10px;
     text-align: center;
-    box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    z-index: 10;
 }
 
+/* Hide elements */
 .hidden {
     display: none;
 }
 
-/* Responsive layout for mobile */
-@media (max-width: 600px) {
-    canvas {
-        width: 95vw;
-        height: 60vh;
-    }
-
-    #score {
-        font-size: 20px;
-    }
-
-    button {
-        font-size: 16px;
-        padding: 8px 16px;
-    }
+/* Score display */
+#scoreDisplay {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px black;
 }
