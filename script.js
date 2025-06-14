@@ -1,40 +1,40 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const startButton = document.getElementById('startButton');
-const retryButton = document.getElementById('retryButton');
 const gameOverBox = document.getElementById('gameOver');
-const scoreDisplay = document.getElementById('score');
-const controlButtons = document.getElementById('controls');
+const retryButton = document.getElementById('retryButton');
 const leftButton = document.getElementById('leftButton');
 const rightButton = document.getElementById('rightButton');
+const scoreDisplay = document.getElementById('scoreDisplay');
 
+// Canvas size
 canvas.width = 800;
 canvas.height = 600;
 
-// Ball
+// Ball properties
 const ball = {
     x: canvas.width / 2,
     y: canvas.height - 50,
     radius: 15,
-    dx: 10,
-    dy: -10,
+    dx: 5,     // Super fast speed
+    dy: -5,
     color: 'red'
 };
 
-// Paddle
+// Paddle properties
 const paddle = {
     width: 100,
     height: 15,
     x: (canvas.width - 100) / 2,
     y: canvas.height - 30,
-    speed: 7,
+    speed: 10,
     dx: 0
 };
 
-let gameStarted = false;
 let score = 0;
+let gameStarted = false;
 
-// Draw ball
+// Draw functions
 function drawBall() {
     ctx.beginPath();
     ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
@@ -43,17 +43,21 @@ function drawBall() {
     ctx.closePath();
 }
 
-// Draw paddle
 function drawPaddle() {
     ctx.fillStyle = 'white';
     ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
+}
+
+function drawScore() {
+    scoreDisplay.textContent = `Score: ${score}`;
 }
 
 // Move paddle
 function movePaddle() {
     paddle.x += paddle.dx;
     if (paddle.x < 0) paddle.x = 0;
-    if (paddle.x + paddle.width > canvas.width) paddle.x = canvas.width - paddle.width;
+    if (paddle.x + paddle.width > canvas.width)
+        paddle.x = canvas.width - paddle.width;
 }
 
 // Move ball
@@ -61,117 +65,89 @@ function moveBall() {
     ball.x += ball.dx;
     ball.y += ball.dy;
 
-    // Wall collisions
-    if (ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0) {
+    // Wall bounce
+    if (ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0)
         ball.dx *= -1;
-    }
 
-    if (ball.y - ball.radius < 0) {
+    if (ball.y - ball.radius < 0)
         ball.dy *= -1;
-    }
 
-    // Paddle collision
+    // Paddle bounce
     if (
         ball.x > paddle.x &&
         ball.x < paddle.x + paddle.width &&
-        ball.y + ball.radius > paddle.y
+        ball.y + ball.radius > paddle.y &&
+        ball.y - ball.radius < paddle.y + paddle.height
     ) {
         ball.dy *= -1;
         ball.y = paddle.y - ball.radius;
-        score++;
-        scoreDisplay.textContent = `Score: ${score}`;
+        score++; // Increase score
     }
 
-    // Game over
+    // Missed ball
     if (ball.y - ball.radius > canvas.height) {
         gameStarted = false;
         gameOverBox.classList.remove('hidden');
-        controlButtons.classList.add('hidden');
     }
 }
 
-// Draw game
+// Draw everything
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBall();
     drawPaddle();
+    drawScore();
 }
 
-// Update frame
+// Update game frame
 function update() {
     if (!gameStarted) return;
 
     movePaddle();
     moveBall();
     draw();
-
     requestAnimationFrame(update);
 }
 
 // Keyboard controls
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight') {
-        paddle.dx = paddle.speed;
-    } else if (e.key === 'ArrowLeft') {
-        paddle.dx = -paddle.speed;
-    }
+    if (e.key === 'ArrowRight') paddle.dx = paddle.speed;
+    else if (e.key === 'ArrowLeft') paddle.dx = -paddle.speed;
 });
 
 document.addEventListener('keyup', (e) => {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-        paddle.dx = 0;
-    }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') paddle.dx = 0;
 });
 
-// Button controls
-leftButton.addEventListener('mousedown', () => {
-    paddle.dx = -paddle.speed;
-});
-rightButton.addEventListener('mousedown', () => {
-    paddle.dx = paddle.speed;
-});
-leftButton.addEventListener('mouseup', () => {
-    paddle.dx = 0;
-});
-rightButton.addEventListener('mouseup', () => {
-    paddle.dx = 0;
-});
+// Touch & mouse controls for buttons
+function setPaddleControl(button, direction) {
+    button.addEventListener('mousedown', () => paddle.dx = direction * paddle.speed);
+    button.addEventListener('mouseup', () => paddle.dx = 0);
+    button.addEventListener('touchstart', () => paddle.dx = direction * paddle.speed);
+    button.addEventListener('touchend', () => paddle.dx = 0);
+}
 
-// Touch support for mobile
-leftButton.addEventListener('touchstart', () => {
-    paddle.dx = -paddle.speed;
-});
-rightButton.addEventListener('touchstart', () => {
-    paddle.dx = paddle.speed;
-});
-leftButton.addEventListener('touchend', () => {
-    paddle.dx = 0;
-});
-rightButton.addEventListener('touchend', () => {
-    paddle.dx = 0;
-});
+setPaddleControl(leftButton, -1);
+setPaddleControl(rightButton, 1);
 
-// Start Game
+// Start game
 startButton.addEventListener('click', () => {
     gameStarted = true;
-    startButton.style.display = 'none';
-    controlButtons.classList.remove('hidden');
     score = 0;
-    scoreDisplay.textContent = `Score: ${score}`;
+    startButton.style.display = 'none';
+    gameOverBox.classList.add('hidden');
     update();
 });
 
-// Retry Game
+// Retry game
 retryButton.addEventListener('click', () => {
-    gameOverBox.classList.add('hidden');
-    controlButtons.classList.remove('hidden');
     ball.x = canvas.width / 2;
     ball.y = canvas.height - 50;
-    ball.dx = 4;
-    ball.dy = -4;
+    ball.dx = 5;
+    ball.dy = -5;
     paddle.x = (canvas.width - paddle.width) / 2;
     score = 0;
-    scoreDisplay.textContent = `Score: ${score}`;
     gameStarted = true;
+    gameOverBox.classList.add('hidden');
     update();
 });
