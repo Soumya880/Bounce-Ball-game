@@ -1,6 +1,6 @@
 # ﻿🔴 Bounce-Ball-game 
  
-<h3> 🎮 Overview </h3>
+## 🎮 Overview 
 <b>Bounce Ball Game</b> is a simple, fun, and interactive 2D game where the player controls a ball that bounces off surfaces and avoids falling. It's designed to demonstrate basic game development principles using logic and physics.
 
 -----
